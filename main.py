@@ -133,11 +133,15 @@ def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
     train_op = optimizer.minimize(cross_entropy_loss)
 
-    return logits, train_op, cross_entropy_loss
+    prediction = tf.argmax(nn_last_layer, axis=3)
+    ground_truth = correct_label[:, :, :, 0]
+    iou, iou_op = tf.metrics.mean_iou(ground_truth, prediction, num_classes)
+
+    return logits, train_op, cross_entropy_loss, iou, iou_op
 tests.test_optimize(optimize)
 
 
-def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_loss, input_image,
+def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_loss, iou, iou_op, input_image,
              correct_label, keep_prob, learning_rate):
     """
     Train neural network and print out the loss during training.
@@ -147,6 +151,8 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     :param get_batches_fn: Function to get batches of training data.  Call using get_batches_fn(batch_size)
     :param train_op: TF Operation to train the neural network
     :param cross_entropy_loss: TF Tensor for the amount of loss
+    :param iou: TF Tensor for the amount of iou
+    :param iou_op: TF Operation to calculate the iou
     :param input_image: TF Placeholder for input images
     :param correct_label: TF Placeholder for label images
     :param keep_prob: TF Placeholder for dropout keep probability
@@ -161,7 +167,10 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
             _, loss = sess.run([train_op, cross_entropy_loss],
                                feed_dict={input_image: image, correct_label: label,
                                           keep_prob: 0.8, learning_rate: 1e-4})
-            print("Epoch %d: Training Loss: %.4f" %(epoch, loss))
+
+            sess.run(iou_op, feed_dict={input_image: image, correct_label: label, keep_prob: 1.0})
+            mean_iou = sess.run(iou)
+            print("Epoch %d: Training Loss: %.4f, Mean-IOU: %.4f" % (epoch, loss, mean_iou))
 
 
 tests.test_train_nn(train_nn)
@@ -203,11 +212,11 @@ def run():
         input_image, keep_prob, layer3_out, layer4_out, layer7_out = load_vgg(sess, vgg_path)
         nn_last_layer = layers(layer3_out, layer4_out, layer7_out, num_classes)
 
-        logits, train_op, cross_entropy_loss = optimize(nn_last_layer, correct_label, learning_rate, num_classes)
+        logits, train_op, cross_entropy_loss, iou, iou_op = optimize(nn_last_layer, correct_label, learning_rate, num_classes)
 
         # TODO: Train NN using the train_nn function
         sess.run(tf.global_variables_initializer())
-        train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_loss, input_image,
+        train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_loss, iou, iou_op, input_image,
              correct_label, keep_prob, learning_rate)
 
         # Save the model weights
