@@ -220,7 +220,7 @@ def run():
 
         # Save the model weights
         saver = tf.train.Saver()
-        save_path = os.path.join(output_dir, 'model-fcn.ckpt')
+        save_path = './model-fcn.ckpt'
         saver.save(sess, save_path)
         print('Model saved to: model-fcn.ckpt')
 
