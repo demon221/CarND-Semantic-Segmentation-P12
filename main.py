@@ -4,6 +4,9 @@ import helper
 import warnings
 from distutils.version import LooseVersion
 import project_tests as tests
+# Import everything needed to edit/save/watch video clips
+from moviepy.editor import VideoFileClip
+import numpy as np
 
 
 # Check TensorFlow Version
@@ -166,9 +169,10 @@ tests.test_train_nn(train_nn)
 
 def run():
 
-    epochs = 20
+    epochs = 50
     batch_size = 8
     learning_rate = 1e-3
+    learning_rate = tf.constant(learning_rate)
 
     num_classes = 2
     image_shape = (160, 576)
@@ -192,7 +196,7 @@ def run():
         # OPTIONAL: Augment Images for better results
         #  https://datascience.stackexchange.com/questions/5224/how-to-prepare-augment-images-for-neural-network
 
-        learning_rate = tf.placeholder(tf.float32)
+        ##learning_rate = tf.placeholder(tf.float32)
         correct_label = tf.placeholder(tf.float32, shape=(None, None, None, num_classes), name='labels')
 
         # TODO: Build NN using load_vgg, layers, and optimize function
@@ -206,6 +210,11 @@ def run():
         train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_loss, input_image,
              correct_label, keep_prob, learning_rate)
 
+        # Save the model weights
+        saver = tf.train.Saver()
+        save_path = os.path.join(output_dir, 'model-fcn.ckpt')
+        saver.save(sess, save_path)
+        print('Model saved to: model-fcn.ckpt')
 
         # TODO: Save inference data using helper.save_inference_samples
         helper.save_inference_samples(runs_dir, data_dir, sess, image_shape, logits, keep_prob, input_image)
