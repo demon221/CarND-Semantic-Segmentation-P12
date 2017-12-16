@@ -4,9 +4,7 @@ import helper
 import warnings
 from distutils.version import LooseVersion
 import project_tests as tests
-# Import everything needed to edit/save/watch video clips
-from moviepy.editor import VideoFileClip
-import numpy as np
+
 
 
 # Check TensorFlow Version
