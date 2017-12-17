@@ -1,0 +1,41 @@
+[33mcommit d718ccd89357df20459a453b0554edbf5b3cd403[m
+Author: GAOZHI-WORK\ZHI <demongz221@Hotmail.com>
+Date:   Wed Dec 13 22:19:28 2017 +0800
+
+    First version, trainable
+
+[33mcommit 36d55bb02bd9467a796b7039b69d4cb73e6b9f14[m
+Author: Andrew Bauman <baumanab@gmail.com>
+Date:   Tue Sep 19 12:26:43 2017 -0700
+
+    Update submission requirements
+
+[33mcommit dbd8920f4d6509458616da6c9705308009c31092[m
+Author: Andrew Bauman <baumanab@gmail.com>
+Date:   Sun Aug 27 23:05:12 2017 -0700
+
+    Add link to README Course
+
+[33mcommit 167b67f42e20ce1c0637bb48551b3c855a42d228[m
+Author: Andrew Bauman <baumanab@gmail.com>
+Date:   Fri Aug 4 12:52:49 2017 -0700
+
+    note regarding system messages in ipynb environment
+
+[33mcommit fd262fd54adc92dace55ee5603577c605340a693[m
+Author: Brok Bucholtz <brok.bucholtz@gmail.com>
+Date:   Mon Jul 10 14:53:35 2017 -0700
+
+    Add optional task to apply inference on video
+
+[33mcommit ffdcad44e9ecacf20b4c5740aee98123ba84832c[m
+Author: Brok Bucholtz <brok.bucholtz@gmail.com>
+Date:   Wed May 17 21:41:08 2017 -0700
+
+    Add Semantic Segmentation Project
+
+[33mcommit 2a396d259770dd9876f4983413163d16a3358c26[m
+Author: Brok <Brok-Bucholtz@users.noreply.github.com>
+Date:   Wed May 17 16:56:25 2017 -0700
+
+    Initial commit
