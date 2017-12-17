@@ -18,7 +18,7 @@ I have experimented with multiple epochs, batch size, learning rates and dropout
 [image3]: ./runs/1513451298.3180733/umm_000032.png
 [image4]: ./runs/1513451298.3180733/umm_000077.png
 [image5]: ./runs/1513451298.3180733/uu_000006.png
-[image5]: ./runs/1513451298.3180733/uu_000082.png
+[image6]: ./runs/1513451298.3180733/uu_000082.png
 
 The inference image results are stored in the runs directory.
 
